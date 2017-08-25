@@ -30,7 +30,7 @@ app.post('/upload', function(req, res){
   form.on('file', function(field, file) {
     var filepath = path.join(form.uploadDir, file.name);
     fs.rename(file.path, filepath);
-    resposne = compileCFile(filepath);
+    response = compileCFile(filepath);
   });
 
   // log any errors that occur
