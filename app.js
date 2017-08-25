@@ -14,6 +14,7 @@ app.get('/', function(req, res){
 });
 
 app.post('/upload', function(req, res){
+  var response = 'failure';
 
   // create an incoming form object
   var form = new formidable.IncomingForm();
@@ -29,7 +30,7 @@ app.post('/upload', function(req, res){
   form.on('file', function(field, file) {
     var filepath = path.join(form.uploadDir, file.name);
     fs.rename(file.path, filepath);
-    compileCFile(filepath);
+    resposne = compileCFile(filepath);
   });
 
   // log any errors that occur
@@ -39,7 +40,7 @@ app.post('/upload', function(req, res){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    res.end('success');
+    res.end(response);
   });
 
   // parse the incoming request containing the form data
@@ -67,14 +68,18 @@ function compileCFile(file){
     if (data === 0) {
       var run = spawn('./a.out', []);
       run.stdout.on('data', function (output) {
-          console.log(String(output));
+        var outputStr = String(output);
+        console.log(outputStr);
+        return outputStr;
       });
       run.stderr.on('data', function (output) {
-          console.log(String(output));
+        var outputStr = String(output);
+        console.log(outputStr);
+        return outputStr;
       });
-      run.on('close', function (output) {
-          console.log('stdout: ' + output);
-      })
+      //run.on('close', function (output) {
+      //  console.log('stdout: ' + output);
+      //})
     }
   });
 } 
