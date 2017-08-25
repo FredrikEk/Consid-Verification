@@ -54,6 +54,7 @@ var server = app.listen(3050, function(){
 
 
 function compileCFile(file){
+  var response = 'failure';
   var compile = spawn('gcc', [file]);
 
   compile.stdout.on('data', function (data) {
@@ -70,16 +71,17 @@ function compileCFile(file){
       run.stdout.on('data', function (output) {
         var outputStr = String(output);
         console.log(outputStr);
-        return outputStr;
+        response = outputStr;
       });
       run.stderr.on('data', function (output) {
         var outputStr = String(output);
         console.log(outputStr);
-        return outputStr;
+        response = outputStr;
       });
       //run.on('close', function (output) {
       //  console.log('stdout: ' + output);
       //})
     }
   });
+  return response;
 } 
