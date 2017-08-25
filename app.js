@@ -52,15 +52,15 @@ var server = app.listen(3050, function(){
 });
 
 
-function compileCFile(filepath){
-  var compile = spawn('gcc', [filepath]);
+function compileCFile(data){
+  var compile = spawn('gcc', [data]);
 
   if (data === 0) {
         var run = spawn('./a.out', []);
-        run.stdout.on('filepath', function (output) {
+        run.stdout.on('data', function (output) {
             console.log(String(output));
         });
-        run.stderr.on('filepath', function (output) {
+        run.stderr.on('data', function (output) {
             console.log(String(output));
         });
         run.on('close', function (output) {
