@@ -1,0 +1,13 @@
+{
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FredrikEk/Consid-Verification.git"
+  },
+  "name": "Consid-Verification",
+  "author": "Fredrik Ek",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.13.3",
+    "formidable": "^1.0.17"
+  }
+}
