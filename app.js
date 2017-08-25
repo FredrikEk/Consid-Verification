@@ -32,8 +32,6 @@ app.post('/upload', function(req, res){
     compileCFile(filepath);
   });
 
-
-
   // log any errors that occur
   form.on('error', function(err) {
     console.log('An error has occured: \n' + err);
@@ -59,10 +57,10 @@ function compileCFile(filepath){
 
   if (data === 0) {
         var run = spawn('./a.out', []);
-        run.stdout.on('data', function (output) {
+        run.stdout.on('filepath', function (output) {
             console.log(String(output));
         });
-        run.stderr.on('data', function (output) {
+        run.stderr.on('filepath', function (output) {
             console.log(String(output));
         });
         run.on('close', function (output) {
