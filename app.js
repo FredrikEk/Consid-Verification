@@ -83,5 +83,6 @@ function compileCFile(file){
       //})
     }
   });
+  console.log(response)
   return response;
 } 
