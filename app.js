@@ -4,6 +4,9 @@ var path = require('path');
 var formidable = require('formidable');
 var fs = require('fs');
 
+// lib to compile code at runtime
+var spawn = require('child_process').spawn;
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res){
@@ -24,8 +27,12 @@ app.post('/upload', function(req, res){
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
   form.on('file', function(field, file) {
-    fs.rename(file.path, path.join(form.uploadDir, file.name));
+    var filepath = path.join(form.uploadDir, file.name);
+    fs.rename(file.path, filepath);
+    compileCFile(filepath);
   });
+
+
 
   // log any errors that occur
   form.on('error', function(err) {
@@ -42,6 +49,24 @@ app.post('/upload', function(req, res){
 
 });
 
-var server = app.listen(3000, function(){
-  console.log('Server listening on port 3000');
+var server = app.listen(3050, function(){
+  console.log('Server listening on port 3050');
 });
+
+
+function compileCFile(filepath){
+  var compile = spawn('gcc', [filepath]);
+
+  if (data === 0) {
+        var run = spawn('./a.out', []);
+        run.stdout.on('data', function (output) {
+            console.log(String(output));
+        });
+        run.stderr.on('data', function (output) {
+            console.log(String(output));
+        });
+        run.on('close', function (output) {
+            console.log('stdout: ' + output);
+        })
+    }
+} 

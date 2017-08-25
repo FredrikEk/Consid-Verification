@@ -5,6 +5,8 @@
   },
   "name": "Consid-Verification",
   "author": "Fredrik Ek",
+  "license": "MIT",
+  "description": "File upload and code verification",
   "version": "0.0.1",
   "dependencies": {
     "express": "^4.13.3",
