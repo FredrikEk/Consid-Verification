@@ -7,6 +7,8 @@ var fs = require('fs');
 // lib to compile code at runtime
 var spawn = require('child_process').spawn;
 
+var GLOBAL_RESPONSE = 'failure';
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res){
@@ -14,8 +16,6 @@ app.get('/', function(req, res){
 });
 
 app.post('/upload', function(req, res){
-  var response = 'failure';
-
   // create an incoming form object
   var form = new formidable.IncomingForm();
 
@@ -30,7 +30,7 @@ app.post('/upload', function(req, res){
   form.on('file', function(field, file) {
     var filepath = path.join(form.uploadDir, file.name);
     fs.rename(file.path, filepath);
-    response = compileCFile(filepath);
+    compileCFile(filepath);
   });
 
   // log any errors that occur
@@ -40,7 +40,7 @@ app.post('/upload', function(req, res){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    res.end(response);
+    res.end(GLOBAL_RESPONSE);
   });
 
   // parse the incoming request containing the form data
@@ -54,7 +54,6 @@ var server = app.listen(3050, function(){
 
 
 function compileCFile(file){
-  var outputStr = 'failure';
   var compile = spawn('gcc', [file]);
 
   compile.stdout.on('data', function (data) {
@@ -71,17 +70,16 @@ function compileCFile(file){
       run.stdout.on('data', function (output) {
         outputStr = String(output);
         console.log(outputStr);
+        GLOBAL_RESPONSE = outputStr;
       });
       run.stderr.on('data', function (output) {
         outputStr = String(output);
         console.log(outputStr);
+        GLOBAL_RESPONSE = outputStr;
       });
       //run.on('close', function (output) {
       //  console.log('stdout: ' + output);
       //})
     }
-    console.log(outputStr)
   });
-  console.log(outputStr)
-  return outputStr;
 } 
