@@ -82,6 +82,7 @@ function compileCFile(file){
       //  console.log('stdout: ' + output);
       //})
     }
+    console.log(response)
   });
   console.log(response)
   return response;
