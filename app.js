@@ -76,5 +76,5 @@ function compileCFile(file){
           console.log('stdout: ' + output);
       })
     }
-  }
+  });
 } 
