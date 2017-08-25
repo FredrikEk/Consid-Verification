@@ -40,7 +40,7 @@ app.post('/upload', function(req, res){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    setTimeout(function(){ 
+    setTimeout(function(){ //Should use callback instead of waiting
       console.log(GLOBAL_RESPONSE);
       res.end(GLOBAL_RESPONSE); 
     }, 5000);
@@ -65,7 +65,7 @@ function compileCFile(file){
   });
 
   compile.stderr.on('data', function (data) {
-      console.log(String(data));
+    console.log(String(data));
   });
 
   compile.on('close', function (data) {
